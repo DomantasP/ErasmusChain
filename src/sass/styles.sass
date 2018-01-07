@@ -1,0 +1,120 @@
+$slim-shadow: 2px 2px 4px -2px rgba(0,0,0,0.9)
+$another-shadow: 0px 0px 14px -5px rgba(0,0,0,0.7)
+$violetish: #5E35B1
+$blueish: #5c7cfa
+
+html, body
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+  width: 100%
+  height: 100%
+  font-family: 'Roboto', sans-serif
+
+#root
+  width: 100%
+  height: 100%
+
+.App
+  width: 100%
+  height: 100%
+
+
+.App nav
+  width: 200px
+  height: 100%
+  color: white
+  background: $violetish
+  float: left
+  position: relative
+  shadow: $slim-shadow
+  box-shadow: $slim-shadow
+
+.container
+  width: calc(100% - 200px)
+  margin-left: 200px
+  height: 100%
+  display: flex
+  align-items: center
+  justify-content: center
+  text-align: center
+
+.home.container
+  background: url('/assets/home-bg.jpg')
+  background-position: center center
+  background-size: cover
+  color: white
+
+.home.container h1
+  width: 80%
+  font-weight: 400
+
+.container .box
+  width: 400px
+  border-radius: 7px
+  padding: 30px
+  box-shadow: $another-shadow
+
+nav
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-direction: column
+  font-size: 0.8em
+
+nav ul
+  padding: 0
+  margin: 0
+  width: 100%
+  text-align: center
+
+nav li
+  list-style: none
+  vertical-align: middle
+
+.welcome-icon
+  width: 120px
+
+.welcome-text
+  font-size: 1.2em
+  font-weight: 400
+  margin-bottom: 30px
+
+.nav-button
+  font-weight: 600
+  display: block
+  text-decoration: none
+  background: $blueish
+  border: none
+  outline: none
+  height: 30px
+  width: 120px
+  border-radius: 15px
+  margin: 10px auto
+  transition: 0.2s all
+  color: white
+  text-align: center
+  line-height: 30px
+  &:hover
+    cursor: pointer
+    transform: translate(-2px,-2px)
+    box-shadow: $slim-shadow
+
+.login form input
+  margin-top: 10px
+  margin-bottom: 10px
+  padding-left: 10px
+  border: none
+  background: #ececec
+  height: 40px
+  font-weight: 600
+
+.login button
+  margin-bottom: 20px
+
+.login label
+  font-weight: 600
+  display: block
+
+.login h1
+  margin-top: 5px
