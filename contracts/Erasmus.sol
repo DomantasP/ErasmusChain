@@ -10,8 +10,8 @@ contract Erasmus {
 
   struct Student {
     uint id;
-    string firstName;
-    string lastName;
+    bytes32 firstName;
+    bytes32 lastName;
     address originUniversity;
     address erasmusUniversity;
     bool isOnErasmus;
@@ -58,16 +58,56 @@ contract Erasmus {
     return students[id].erasmusUniversity;
   }
 
-  function addStudent(string firstName, string lastName, uint id) public returns (uint) {
+  function addStudent(bytes32 firstName, bytes32 lastName, uint id) public returns (uint) {
+    require(students[id].id == 0);
 
     students[id] = Student(id, firstName, lastName, msg.sender, msg.sender, false);
+    universities[msg.sender].localStudents.push(id);
     return (students[id].id);
   }
 
-  function getStudentName(uint id) public view returns (string) {
-    require(students[id].erasmusUniversity == msg.sender || students[id].erasmusUniversity == msg.sender);
+  function getStudentName(uint id) public view returns (bytes32) {
+    //require(students[id].erasmusUniversity == msg.sender || students[id].erasmusUniversity == msg.sender);
 
     return (students[id].firstName);
+  }
+
+  function getStudentLastName(uint id) public view returns (bytes32) {
+    //require(students[id].erasmusUniversity == msg.sender || students[id].erasmusUniversity == msg.sender);
+
+    return (students[id].lastName);
+  }
+
+  function getLocalStudentsArray() public view returns (uint[], bytes32[], bytes32[]) {
+    require(universities[msg.sender].isSet);
+
+    uint length = universities[msg.sender].localStudents.length;
+    bytes32[] memory firstNames = new bytes32[](length);
+    bytes32[] memory lastNames = new bytes32[](length);
+
+    for (uint i = 0; i < length; i++) {
+      uint id = universities[msg.sender].localStudents[i];
+      firstNames[i] = getStudentName(id);
+      lastNames[i] = getStudentLastName(id);
+    }
+
+    return (universities[msg.sender].localStudents, firstNames, lastNames);
+  }
+
+  function getErasmusStudentsArray() public view returns (uint[], bytes32[], bytes32[]) {
+    require(universities[msg.sender].isSet);
+
+    uint length = universities[msg.sender].erasmusStudents.length;
+    bytes32[] memory firstNames = new bytes32[](length);
+    bytes32[] memory lastNames = new bytes32[](length);
+
+    for (uint i = 0; i < length; i++) {
+      uint id = universities[msg.sender].erasmusStudents[i];
+      firstNames[i] = getStudentName(id);
+      lastNames[i] = getStudentLastName(id);
+    }
+
+    return (universities[msg.sender].erasmusStudents, firstNames, lastNames);
   }
 
   function setCourse(uint studentId, string courseId, string title, int credits) public {

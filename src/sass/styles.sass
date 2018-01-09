@@ -26,7 +26,7 @@ html, body
   color: white
   background: $violetish
   float: left
-  position: relative
+  position: fixed
   shadow: $slim-shadow
   box-shadow: $slim-shadow
 
@@ -50,10 +50,8 @@ html, body
   font-weight: 400
 
 .container .box
-  width: 400px
-  border-radius: 7px
+  width: 350px
   padding: 30px
-  box-shadow: $another-shadow
 
 nav
   display: flex
@@ -114,7 +112,57 @@ nav li
 
 .login label
   font-weight: 600
-  display: block
 
 .login h1
   margin-top: 5px
+
+.active.success-notification-container
+  pointer-events: initial
+  opacity: 1
+
+.success-notification-container
+  height: 100%
+  width: calc(100% - 200px)
+  position: absolute
+  top: 0
+  left: 200px
+  background: transparentize(black, 0.2)
+  transition: all 200ms
+  pointer-events: none
+  opacity: 0
+
+.success-notification
+  transform: translateY(50%)
+  width: 400px
+  background: white
+  margin: auto
+  padding: 40px
+  border-radius: 10px
+  box-shadow: $slim-shadow
+
+.success-notification p
+  margin-bottom: 20px
+
+.student-list
+  width: 100%
+  margin-top: 0
+
+.container.list-container
+  display: block
+  padding-top: 20px
+
+.student-card
+  width: 600px
+  margin: 0 auto 20px auto
+  padding: 30px
+  box-shadow: $another-shadow
+  border-radius: 10px
+
+.student-card .nav-button
+  display: inline-block
+  margin-top: 20px
+  margin-right: 20px
+
+.student-card-section
+  width: 200px
+  display: inline-block

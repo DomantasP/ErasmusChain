@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+import SuccessNotification from '../SuccessNotification'
+import ErrorNotification from '../ErrorNotification'
+
 class AddStudentForm extends Component {
   constructor(props) {
     super(props)
@@ -22,6 +25,13 @@ class AddStudentForm extends Component {
   onInputIDChange(event) {
     this.setState({ id: event.target.value })
   }
+
+  clearFields = () =>
+    this.setState({
+      firstName: '',
+      lastName: '',
+      id: ''
+    })
 
   handleSubmit(event) {
     event.preventDefault()
@@ -56,14 +66,16 @@ class AddStudentForm extends Component {
           onChange={this.onInputFirstNameChange.bind(this)}
           placeholder="First Name"
         />
+        <br />
         <label htmlFor="name">Last Name: </label>
         <input
           id="lastName"
           type="text"
-          value={this.state.name}
+          value={this.state.lastName}
           onChange={this.onInputLastNameChange.bind(this)}
           placeholder="Last name"
         />
+        <br />
         <label htmlFor="name">Student's ID: </label>
         <input
           id="id"
@@ -72,9 +84,20 @@ class AddStudentForm extends Component {
           onChange={this.onInputIDChange.bind(this)}
           placeholder="Student's ID"
         />
+        <br />
         <button type="submit" className="nav-button">
           Add
         </button>
+        <SuccessNotification
+          message={
+            this.state.firstName + ' successfully added to your students list!'
+          }
+          clearFields={this.clearFields}
+        />
+        <ErrorNotification
+          message="Sorry an error occured! But there are worse things in life, so don't worry, everything's going to be okay."
+          clearFields={this.clearFields}
+        />
       </form>
     )
   }

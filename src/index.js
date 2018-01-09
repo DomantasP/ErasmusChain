@@ -13,6 +13,7 @@ import Dashboard from './layouts/Dashboard'
 import SignUp from './layouts/SignUp'
 import Profile from './layouts/Profile'
 import AddStudent from './layouts/AddStudent'
+import MyStudentsContainer from './user/ui/mystudents/MyStudentsContainer'
 
 // Redux Store
 import store from './store'
@@ -38,6 +39,16 @@ ReactDOM.render(
         <Route path="addStudent" component={UserIsAuthenticated(AddStudent)} />
         <Route path="signup" component={UserIsNotAuthenticated(SignUp)} />
         <Route path="profile" component={UserIsAuthenticated(Profile)} />
+        <Route
+          path="myStudents"
+          component={UserIsAuthenticated(MyStudentsContainer)}
+          type="localStudents"
+        />
+        <Route
+          path="erasmusStudents"
+          component={UserIsAuthenticated(MyStudentsContainer)}
+          type="erasmusStudents"
+        />
       </Route>
     </Router>
   </Provider>,

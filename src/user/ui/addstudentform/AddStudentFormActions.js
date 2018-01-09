@@ -1,7 +1,19 @@
 import ErasmusContract from '../../../../build/contracts/Erasmus.json'
 import store from '../../../store'
+import {
+  toggleSuccessNotification,
+  toggleErrorNotification
+} from '../../userActions'
 
 const contract = require('truffle-contract')
+
+export const ADD_STUDENT = 'ADD_STUDENT'
+function addStudentToStore(student) {
+  return {
+    type: ADD_STUDENT,
+    payload: student
+  }
+}
 
 export function addStudent(firstName, lastName, id) {
   let web3 = store.getState().web3.web3Instance
@@ -13,9 +25,7 @@ export function addStudent(firstName, lastName, id) {
 
       let erasmusInstance
 
-      // Get current ethereum wallet.
       web3.eth.getCoinbase((error, coinbase) => {
-        // Log errors, if any.
         if (error) {
           console.error(error)
         }
@@ -26,10 +36,11 @@ export function addStudent(firstName, lastName, id) {
           erasmusInstance
             .addStudent(firstName, lastName, id, { from: coinbase })
             .then(function(result) {
-              // MOVE TO SUCCESS PAGE
-              //return dispatch(loginUser())
+              dispatch(toggleSuccessNotification())
+              dispatch(addStudentToStore())
             })
             .catch(function(result) {
+              dispatch(toggleErrorNotification())
               console.error(result)
             })
         })

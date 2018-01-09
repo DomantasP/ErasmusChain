@@ -19,6 +19,16 @@ class App extends Component {
           </Link>
         </li>
         <li>
+          <Link to="/myStudents" className="nav-button">
+            Local students
+          </Link>
+        </li>
+        <li>
+          <Link to="/erasmusStudents" className="nav-button">
+            Erasmus students
+          </Link>
+        </li>
+        <li>
           <Link to="/addStudent" className="nav-button">
             Add Student
           </Link>
