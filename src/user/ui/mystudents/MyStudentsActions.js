@@ -48,8 +48,8 @@ export function fetchStudents(type) {
           erasmusInstance = instance
 
           if (type === 'localStudents') {
-            erasmusInstance.getLocalStudentsArray
-              .call()
+            erasmusInstance
+              .getLocalStudentsArray({ from: coinbase })
               .then(function(array) {
                 const students = makeStudentsArray(array)
                 dispatch(setLocalStudents(students))
@@ -61,8 +61,8 @@ export function fetchStudents(type) {
           }
 
           if (type === 'erasmusStudents') {
-            erasmusInstance.getErasmusStudentsArray
-              .call()
+            erasmusInstance
+              .getErasmusStudentsArray({ from: coinbase })
               .then(function(array) {
                 const students = makeStudentsArray(array)
                 dispatch(setErasmusStudents(students))

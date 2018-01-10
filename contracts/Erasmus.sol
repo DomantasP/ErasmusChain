@@ -67,14 +67,10 @@ contract Erasmus {
   }
 
   function getStudentName(uint id) public view returns (bytes32) {
-    //require(students[id].erasmusUniversity == msg.sender || students[id].erasmusUniversity == msg.sender);
-
     return (students[id].firstName);
   }
 
   function getStudentLastName(uint id) public view returns (bytes32) {
-    //require(students[id].erasmusUniversity == msg.sender || students[id].erasmusUniversity == msg.sender);
-
     return (students[id].lastName);
   }
 

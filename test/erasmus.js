@@ -176,85 +176,68 @@ contract('Erasmus', function(accounts) {
   })
 
   it('...should not allow adding same student twice', function() {
-    return Erasmus.deployed()
-      .then(function() {
-        return ErasmusInstance.addStudent('Domantas', 'Pelaitis', 1510738, {
-          from: accounts[0]
+    return new Promise(function(resolve) {
+      Erasmus.deployed()
+        .then(function() {
+          return ErasmusInstance.addStudent('Domantas', 'Pelaitis', 1510738, {
+            from: accounts[0]
+          })
         })
-      })
-      .then(
-        function(result) {
-          assert.equal(false, 'Asserting should have failed')
-        },
-        function(error) {
-          assert.match(error, /VM Exception[a-zA-Z0-9 ]+: revert/)
-        }
-      )
+        .then(
+          function(result) {
+            assert.equal(false, 'Asserting should have failed')
+          },
+          function(error) {
+            assert.match(error, /VM Exception[a-zA-Z0-9 ]+: revert/)
+            resolve()
+          }
+        )
+    })
   })
 
   it('...should return local students array', function() {
-    return Erasmus.deployed()
-      .then(function() {
-        return ErasmusInstance.addStudent('Donald', 'Trump', 666, {
-          from: accounts[0]
+    return new Promise(function(resolve) {
+      Erasmus.deployed()
+        .then(function() {
+          return ErasmusInstance.addStudent('Donald', 'Trump', 666, {
+            from: accounts[0]
+          })
         })
-      })
-      .then(function() {
-        return ErasmusInstance.getLocalStudentsArray({ from: accounts[0] })
-      })
-      .then(function(studentsArray) {
-        assert.equal(studentsArray[0][0], '1510738')
-        assert.equal(studentsArray[0][1], '666')
-        assert.equal(
-          studentsArray[1][0],
-          '0x446f6d616e746173000000000000000000000000000000000000000000000000'
-        )
-        assert.equal(
-          studentsArray[1][1],
-          '0x446f6e616c640000000000000000000000000000000000000000000000000000'
-        )
-        assert.equal(
-          studentsArray[2][0],
-          '0x50656c6169746973000000000000000000000000000000000000000000000000'
-        )
-        assert.equal(
-          studentsArray[2][1],
-          '0x5472756d70000000000000000000000000000000000000000000000000000000'
-        )
-      })
-      .catch(error => console.log(error))
+        .then(function() {
+          return ErasmusInstance.getLocalStudentsArray({ from: accounts[0] })
+        })
+        .then(function(studentsArray) {
+          assert.equal(studentsArray[0][0], '1510738')
+          assert.equal(studentsArray[0][1], '666')
+          assert.equal(web3.toUtf8(studentsArray[1][0]), 'Domantas')
+          assert.equal(web3.toUtf8(studentsArray[1][1]), 'Donald')
+          assert.equal(web3.toUtf8(studentsArray[2][0]), 'Pelaitis')
+          assert.equal(web3.toUtf8(studentsArray[2][1]), 'Trump')
+          resolve()
+        })
+    })
   })
 
   it('...should return erasmus students array', function() {
-    return Erasmus.deployed()
-      .then(function() {
-        return ErasmusInstance.setErasmusUniversity(666, accounts[1], {
-          from: accounts[0]
+    return new Promise(function(resolve) {
+      Erasmus.deployed()
+        .then(function() {
+          return ErasmusInstance.setErasmusUniversity(666, accounts[1], {
+            from: accounts[0]
+          })
         })
-      })
-      .then(function() {
-        return ErasmusInstance.getErasmusStudentsArray({ from: accounts[1] })
-      })
-      .then(function(studentsArray) {
-        assert.equal(studentsArray[0][0], '1510738')
-        assert.equal(studentsArray[0][1], '666')
-        assert.equal(
-          studentsArray[1][0],
-          '0x446f6d616e746173000000000000000000000000000000000000000000000000'
-        )
-        assert.equal(
-          studentsArray[1][1],
-          '0x446f6e616c640000000000000000000000000000000000000000000000000000'
-        )
-        assert.equal(
-          studentsArray[2][0],
-          '0x50656c6169746973000000000000000000000000000000000000000000000000'
-        )
-        assert.equal(
-          studentsArray[2][1],
-          '0x5472756d70000000000000000000000000000000000000000000000000000000'
-        )
-      })
-      .catch(error => console.log(error))
+        .then(function() {
+          return ErasmusInstance.getErasmusStudentsArray({ from: accounts[1] })
+        })
+        .then(function(studentsArray) {
+          assert.equal(studentsArray[0][0], '1510738')
+          assert.equal(studentsArray[0][1], '666')
+          assert.equal(web3.toUtf8(studentsArray[1][0]), 'Domantas')
+          assert.equal(web3.toUtf8(studentsArray[1][1]), 'Donald')
+          assert.equal(web3.toUtf8(studentsArray[2][0]), 'Pelaitis')
+          assert.equal(web3.toUtf8(studentsArray[2][1]), 'Trump')
+          resolve()
+        })
+    })
   })
 })

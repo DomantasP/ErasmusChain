@@ -27,8 +27,6 @@ export function signUpUser(name) {
 
         authentication.deployed().then(function(instance) {
           authenticationInstance = instance
-
-          // Attempt to sign up user.
           authenticationInstance
             .signup(name, { from: coinbase })
             .catch(function(result) {
@@ -40,11 +38,10 @@ export function signUpUser(name) {
           .deployed()
           .then(function(instance) {
             erasmusInstance = instance
-            return erasmusInstance
-              .createUniversity(name, { from: coinbase })
-              .then(function() {
-                dispatch(loginUser())
-              })
+            return erasmusInstance.createUniversity(name, { from: coinbase })
+          })
+          .then(function() {
+            dispatch(loginUser())
           })
           .catch(function(error) {
             console.error(error)

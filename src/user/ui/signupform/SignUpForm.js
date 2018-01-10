@@ -26,7 +26,12 @@ class SignUpForm extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
-        <label htmlFor="name">University title or student name: </label>
+        <p>
+          {' '}
+          You're going to do a couple of transactions, on for signing up and
+          another one for creating university in our system.
+        </p>
+        <label htmlFor="name">University title: </label>
         <input
           id="name"
           type="text"

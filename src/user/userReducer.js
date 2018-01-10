@@ -4,7 +4,8 @@ const initialState = {
   errorMessageIsActive: false,
   students: [],
   localStudents: [],
-  erasmuStudents: []
+  erasmuStudents: [],
+  studentsListType: 'localStudents'
 }
 
 const userReducer = (state = initialState, action) => {

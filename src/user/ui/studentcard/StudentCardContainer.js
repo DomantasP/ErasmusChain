@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import StudentCard from './StudentCard'
-import { fetchStudents } from './StudentCardActions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -9,11 +8,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return {
-    fetchStudents: () => {
-      dispatch(fetchStudents())
-    }
-  }
+  return {}
 }
 
 const StudentCardContainer = connect(mapStateToProps, mapDispatchToProps)(

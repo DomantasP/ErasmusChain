@@ -3,14 +3,20 @@ import React, { Component } from 'react'
 import StudentCardContainer from '../studentcard/StudentCardContainer'
 
 class MyStudents extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchStudents(this.props.route.type)
   }
 
   renderStudents() {
-    return this.props.students.map(student => (
-      <StudentCardContainer key={student.id} student={student} />
-    ))
+    if (this.props.students.length > 0)
+      return this.props.students.map(student => (
+        <StudentCardContainer
+          type={this.props.route.type}
+          key={student.id}
+          student={student}
+        />
+      ))
+    else return <h3> Sorry, you don't have any students in this list</h3>
   }
 
   render() {
