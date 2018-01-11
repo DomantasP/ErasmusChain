@@ -37,18 +37,14 @@ export function fetchStudents(type) {
       const erasmus = contract(ErasmusContract)
       erasmus.setProvider(web3.currentProvider)
 
-      let erasmusInstance
-
       web3.eth.getCoinbase((error, coinbase) => {
         if (error) {
           console.error(error)
         }
 
         erasmus.deployed().then(function(instance) {
-          erasmusInstance = instance
-
           if (type === 'localStudents') {
-            erasmusInstance
+            instance
               .getLocalStudentsArray({ from: coinbase })
               .then(function(array) {
                 const students = makeStudentsArray(array)
@@ -61,7 +57,7 @@ export function fetchStudents(type) {
           }
 
           if (type === 'erasmusStudents') {
-            erasmusInstance
+            instance
               .getErasmusStudentsArray({ from: coinbase })
               .then(function(array) {
                 const students = makeStudentsArray(array)

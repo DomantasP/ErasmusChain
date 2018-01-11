@@ -57,6 +57,15 @@ const userReducer = (state = initialState, action) => {
     })
   }
 
+  if (action.type === 'SET_COURSES') {
+    return Object.assign({}, state, {
+      students: state.students.map(
+        stud =>
+          stud.id === action.id ? { ...stud, courses: action.payload } : stud
+      )
+    })
+  }
+
   return state
 }
 

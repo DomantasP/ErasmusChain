@@ -15,14 +15,11 @@ contract Erasmus {
     address originUniversity;
     address erasmusUniversity;
     bool isOnErasmus;
-    mapping (string => Course) courses;
-  }
-
-  struct Course {
-    string title;
-    int credits;
-    int mark;
-    bool isDone;
+    bytes32[] courseId;
+    bytes32[] title;
+    int[] credits;
+    int[] mark;
+    bool[] isDone;
   }
 
   mapping (uint => Student) students;
@@ -61,7 +58,7 @@ contract Erasmus {
   function addStudent(bytes32 firstName, bytes32 lastName, uint id) public returns (uint) {
     require(students[id].id == 0);
 
-    students[id] = Student(id, firstName, lastName, msg.sender, msg.sender, false);
+    students[id] = Student(id, firstName, lastName, msg.sender, msg.sender, false, new bytes32[](0), new bytes32[](0), new int[](0), new int[](0), new bool[](0));
     universities[msg.sender].localStudents.push(id);
     return (students[id].id);
   }
@@ -106,33 +103,47 @@ contract Erasmus {
     return (universities[msg.sender].erasmusStudents, firstNames, lastNames);
   }
 
-  function setCourse(uint studentId, string courseId, string title, int credits) public {
+  function setCourse(uint studentId, bytes32 courseId, bytes32 title, int credits) public {
     require(universities[msg.sender].isSet);
     require(students[studentId].originUniversity == msg.sender);
 
-    students[studentId].courses[courseId] = Course(title, credits, 0, false);
+    students[studentId].courseId.push(courseId);
+    students[studentId].title.push(title);
+    students[studentId].credits.push(credits);
+    students[studentId].mark.push(0);
+    students[studentId].isDone.push(false);
   }
 
-  function validateCourse(uint studentId, string courseId, int mark, bool isDone) public {
+  function validateCourse(uint studentId, bytes32 courseId, int mark, bool isDone) public {
     require(universities[msg.sender].isSet);
     require(students[studentId].erasmusUniversity == msg.sender);
 
-    students[studentId].courses[courseId].mark = mark;
-    students[studentId].courses[courseId].isDone = isDone;
+    for (uint i = 0; i < students[studentId].courseId.length; i++) {
+      if (students[studentId].courseId[i] == courseId) {
+            students[studentId].mark[i] = mark;
+            students[studentId].isDone[i] = isDone;
+      }
+    }
   }
 
-  function getCourseTitle(uint studentId, string courseId) public view returns (string) {
-    require(universities[msg.sender].isSet);
+  function getCoursesArray(uint studentId) public view returns (bytes32[], bytes32[], int[], int[], bool[]) {
     require(msg.sender == students[studentId].originUniversity || msg.sender == students[studentId].erasmusUniversity);
 
-    return students[studentId].courses[courseId].title;
+    return (students[studentId].courseId, students[studentId].title, students[studentId].credits, students[studentId].mark, students[studentId].isDone);
   }
 
-  function getMark(uint studentId, string courseId) public view returns (int) {
-    require(universities[msg.sender].isSet);
-    require(msg.sender == students[studentId].originUniversity || msg.sender == students[studentId].erasmusUniversity);
+  function removeCourse(uint studentId, bytes32 courseId) public {
+    require(msg.sender == students[studentId].originUniversity);
 
-    return students[studentId].courses[courseId].mark;
+    for (uint i = 0; i < students[studentId].courseId.length; i++) {
+      if (students[studentId].courseId[i] == courseId) {
+        students[studentId].courseId = removeBytes32(i, students[studentId].courseId);
+        students[studentId].title = removeBytes32(i, students[studentId].title);
+        students[studentId].credits = removeInt(i, students[studentId].credits);
+        students[studentId].mark = removeInt(i, students[studentId].mark);
+        students[studentId].isDone = removeBool(i, students[studentId].isDone);
+      }
+    }
   }
 
   function utfStringLength(string str) public pure
@@ -156,5 +167,41 @@ contract Erasmus {
 
           length++;
       }
+  }
+
+  function removeInt(uint index,int[] storage array) private returns(int[]) {
+    if (index >= array.length)
+      return;
+
+    for (uint i = index; i<array.length-1; i++){
+        array[i] = array[i+1];
+    }
+    delete array[array.length-1];
+    array.length--;
+    return array;
+  }
+
+  function removeBytes32(uint index, bytes32[] storage array) private returns(bytes32[]) {
+    if (index >= array.length)
+      return;
+
+    for (uint i = index; i<array.length-1; i++){
+        array[i] = array[i+1];
+    }
+    delete array[array.length-1];
+    array.length--;
+    return array;
+  }
+
+  function removeBool(uint index, bool[] storage array) private returns(bool[]) {
+    if (index >= array.length)
+      return;
+
+    for (uint i = index; i<array.length-1; i++){
+        array[i] = array[i+1];
+    }
+    delete array[array.length-1];
+    array.length--;
+    return array;
   }
 }
