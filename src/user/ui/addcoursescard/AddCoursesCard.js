@@ -78,6 +78,7 @@ class AddCoursesCard extends Component {
   render() {
     return (
       <div className="course-add-input">
+        <h2>{this.props.studentsID} courses: </h2>
         {this.renderCourses()}
         <p> Enter the course information: </p>
         <p>

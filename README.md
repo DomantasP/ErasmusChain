@@ -20,16 +20,33 @@
   `npm install --save`
 
 * Start Ganache
-* And finally run the command:
+
+* Open the project folder in a terminal and compile the contract using:
+  `truffle compile`
+
+* Then migrate it using:
+  `truffle migrate`
+
+* Now run the command:
   `npm start`
 
-⚡ The project should be running on `localhost:3000`
+* The project should be running on `localhost:3000`
+
+* Now you need to connect your wallet to Custom rpc (Ganache) running on
+  `http://localhost:7545`
+
+* You can start using the web app.
+
 👁 In order to be able to login or signup, you need to be logged in to your in browser wallet.
 Web3 should be automaticly injected by your browser. I recommend using MetaMask.
 
 #### Goal
 
 The whole purpose of this project is to show the capabilities and applications of real life use of smart contracts and blockchain.
+
+#### Authors
+
+Domantas Pelaitis
 
 #### License
 

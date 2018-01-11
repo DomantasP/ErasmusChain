@@ -77,11 +77,21 @@ export function fetchStudents(type) {
 }
 
 function makeStudentsArray(array) {
-  return array[0].map((studId, i) => {
+  let usedIds = []
+  const studentsArray = array[0].map((studId, i) => {
     return {
       id: studId.toString(10),
       firstName: web3.toAscii(array[1][i]),
       lastName: web3.toAscii(array[2][i])
+    }
+  })
+
+  return studentsArray.filter(stud => {
+    if (usedIds.indexOf(stud.id) < 0) {
+      usedIds.push(stud.id.toString(10))
+      return stud
+    } else {
+      return false
     }
   })
 }

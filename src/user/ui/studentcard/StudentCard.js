@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import UniversityCardContainer from '../universitycard/UniversityCardContainer'
 import AddCoursesCardContainer from '../addcoursescard/AddCoursesCardContainer'
+import ValidateCourseCardContainer from '../validatecoursecard/ValidateCourseCardContainer'
 
 class StudentCard extends Component {
   constructor(props) {
@@ -61,7 +62,19 @@ class StudentCard extends Component {
     if (this.props.type === 'erasmusStudents')
       return (
         <div>
-          <button className="nav-button">Courses</button>
+          <button
+            className="nav-button"
+            onClick={this.toggleIsUniversityActive}
+          >
+            Courses
+          </button>
+          <div className="student-card-university-container">
+            {this.state.isUniversityActive ? (
+              <ValidateCourseCardContainer studentsID={this.props.student.id} />
+            ) : (
+              ''
+            )}
+          </div>
         </div>
       )
   }
