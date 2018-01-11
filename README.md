@@ -50,6 +50,10 @@ This project isn't supposed to be real life production application. The project 
 
 I developed it using Ubuntu 17.10. Haven't tested it nor on Windows, nor on macOS. Hope it works on you machine. If you have any questions, you can reach me on twitter 🐦 [DomantasPe](https://twitter.com/DomantasPe)
 
+This is built on top of Truffle box: react-auth
+
+2018
+
 #### Author
 
 Domantas Pelaitis
