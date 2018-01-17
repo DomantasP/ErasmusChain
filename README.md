@@ -46,7 +46,7 @@ The whole purpose of this project is to show the capabilities and applications o
 
 #### Notes
 
-This project isn't supposed to be real life production application. The project needs major refactoring and fixes. This is a university project I developed for 'Crypography' course in my erasmus semester in the University Of Thessaly.
+This project isn't supposed to be real life production application. The project needs major refactoring and fixes. This is a university project I developed for 'Cryptography' course in my erasmus semester in the University Of Thessaly.
 
 I developed it using Ubuntu 17.10. Haven't tested it nor on Windows, nor on macOS. Hope it works on you machine. If you have any questions, you can reach me on twitter 🐦 [DomantasPe](https://twitter.com/DomantasPe)
 
