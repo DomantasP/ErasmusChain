@@ -17,7 +17,7 @@
   `git clone https://github.com/DomantasP/ErasmusChain.git`
 
 * Then install and save node packages:
-  `npm install --save`
+  `npm install`
 
 * Start Ganache
 

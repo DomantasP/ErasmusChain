@@ -6,43 +6,46 @@ contract('Erasmus', function(accounts) {
   let thessallyUniTitle
 
   it('...should create two universities', function() {
-    return Erasmus.deployed()
-      .then(function(instance) {
-        ErasmusInstance = instance
+    new Promise(function(resolve) {
+      return Erasmus.deployed()
+        .then(function(instance) {
+          ErasmusInstance = instance
 
-        return ErasmusInstance.createUniversity('Vilnius University', {
-          from: accounts[0]
+          return ErasmusInstance.createUniversity('Vilnius University', {
+            from: accounts[0]
+          })
         })
-      })
-      .then(function(instance) {
-        return ErasmusInstance.createUniversity('University of Thessaly', {
-          from: accounts[1]
+        .then(function(instance) {
+          return ErasmusInstance.createUniversity('University of Thessaly', {
+            from: accounts[1]
+          })
         })
-      })
-      .then(function() {
-        return ErasmusInstance.getUniversityTitle(accounts[0])
-      })
-      .then(function(title) {
-        vilniusUniTitle = title
-      })
-      .then(function() {
-        return ErasmusInstance.getUniversityTitle(accounts[1])
-      })
-      .then(function(title) {
-        thessallyUniTitle = title
-      })
-      .then(function(name) {
-        assert.equal(
-          vilniusUniTitle,
-          'Vilnius University',
-          "The university wasn't created."
-        )
-        assert.equal(
-          thessallyUniTitle,
-          'University of Thessaly',
-          "The university wasn't created."
-        )
-      })
+        .then(function() {
+          return ErasmusInstance.getUniversityTitle(accounts[0])
+        })
+        .then(function(title) {
+          vilniusUniTitle = title
+        })
+        .then(function() {
+          return ErasmusInstance.getUniversityTitle(accounts[1])
+        })
+        .then(function(title) {
+          thessallyUniTitle = title
+        })
+        .then(function(name) {
+          assert.equal(
+            vilniusUniTitle,
+            'Vilnius University',
+            "The university wasn't created."
+          )
+          assert.equal(
+            thessallyUniTitle,
+            'University of Thessaly',
+            "The university wasn't created."
+          )
+          resolve()
+        })
+    })
   })
 
   it("...should create and add student to student's array", function() {
@@ -67,7 +70,7 @@ contract('Erasmus', function(accounts) {
   })
 
   it("...should set student's erasmus university", function() {
-    Erasmus.deployed()
+    return Erasmus.deployed()
       .then(function() {
         ErasmusInstance.setErasmusUniversity(1510738, accounts[1], {
           from: accounts[0]
@@ -146,57 +149,53 @@ contract('Erasmus', function(accounts) {
     })
   })
 
-  // it('...should validate existing courses', function() {
-  //   return Erasmus.deployed()
-  //     .then(function() {
-  //       return ErasmusInstance.validateCourse(1510738, 'UTH05', 10, true, {
-  //         from: accounts[1]
-  //       })
-  //     })
-  //     .then(function() {
-  //       return ErasmusInstance.validateCourse(1510738, 'UTH11', 5, true, {
-  //         from: accounts[1]
-  //       })
-  //     })
-  //     .then(function() {
-  //       return ErasmusInstance.getMark(1510738, 'UTH11', {
-  //         from: accounts[1]
-  //       })
-  //     })
-  //     .then(function(mark) {
-  //       assert.equal(
-  //         mark.toString(10),
-  //         '5',
-  //         'The returned grade is not correct.'
-  //       )
-  //     })
-  //     .then(function() {
-  //       return ErasmusInstance.getMark(1510738, 'UTH05', {
-  //         from: accounts[1]
-  //       })
-  //     })
-  //     .then(function(mark) {
-  //       assert.equal(
-  //         mark.toString(10),
-  //         '10',
-  //         'The returned grade is not correct.'
-  //       )
-  //     })
-  //     .catch(function(error) {
-  //       console.log(error.toString())
-  //     })
-  // })
+  it('...should validate existing courses', function() {
+    new Promise(function(resolve) {
+      return Erasmus.deployed()
+        .then(function() {
+          return ErasmusInstance.validateCourse(1510738, 'UTH05', 10, true, {
+            from: accounts[1]
+          })
+        })
+        .then(function() {
+          return ErasmusInstance.validateCourse(1510738, 'UTH11', 5, true, {
+            from: accounts[1]
+          })
+        })
+        .then(function() {
+          return ErasmusInstance.getCoursesArray(1510738, {
+            from: accounts[0]
+          })
+        })
+        .then(function(array) {
+          assert.equal(array[3][0], '10', 'Mark value is not correct.')
+          assert.equal(array[3][1], '5', 'Mark value is not correct.')
+          assert.equal(array[4][0], true, 'Is done value is not correct.')
+          assert.equal(array[4][1], true, 'Is done value is not correct.')
+          resolve()
+        })
+        .catch(function(error) {
+          console.log(error.toString())
+        })
+    })
+  })
 
   it('...should remove one course.', function() {
     new Promise(function(resolve) {
       return Erasmus.deployed()
         .then(function() {
-          return ErasmusInstance.setCourse(1510738, 'TTT', 'Math', 13, {
-            from: accounts[0]
-          })
+          return ErasmusInstance.setCourse(
+            1510738,
+            'VU210',
+            'Mathematical analysis',
+            6,
+            {
+              from: accounts[0]
+            }
+          )
         })
         .then(function() {
-          return ErasmusInstance.removeCourse(1510738, 'TTT', {
+          return ErasmusInstance.removeCourse(1510738, 'VU210', {
             from: accounts[0]
           })
         })
@@ -206,7 +205,11 @@ contract('Erasmus', function(accounts) {
           })
         })
         .then(function(array) {
-          assert.equal(array[0].length, 2, 'The returned id is not correct.')
+          assert.equal(
+            array[0].length,
+            2,
+            'The returned courses array is not correct.'
+          )
           resolve()
         })
         .catch(function(error) {
